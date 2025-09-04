@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0f18">
+  <title>EchoSage • Microdose Tracker</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body class="dark">
+  <header class="app-header glass">
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 12 C30 12 15 28 15 45 S27 80 50 88 85 60 85 45 70 12 50 12 Z" fill="none" stroke="#7ee787" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h1>EchoSage</h1>
+    </div>
+    <p class="tag">Static No‑Node • v1.3.1</p>
+  </header>
+
+  <main id="app">
+    <section id="home" class="active">
+      <h2>Home ✨</h2>
+      <div id="kpis" class="kpi-grid"></div>
+      <div class="charts glass">
+        <canvas id="chartMood" height="200"></canvas>
+        <canvas id="chartAnxiety" height="200"></canvas>
+      </div>
+    </section>
+    <section id="cognition">
+      <h2>FTT</h2>
+      <div class="glass ftt">
+        <button id="fttStart" class="primary" type="button">Start 10s</button>
+        <div id="fttTimer" class="timer">Ready</div>
+        <div id="fttTapArea" class="tap-area" role="button" tabindex="0">Tap here</div>
+        <div id="fttResults" class="muted"></div>
+      </div>
+    </section>
+  </main>
+  <nav id="bottomNav" class="glass">
+    <button data-target="home">Home</button>
+    <button data-target="cognition">FTT</button>
+  </nav>
+</body>
+</html>
