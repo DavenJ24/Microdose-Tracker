@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "appVersion": "1.0.0",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-03-01T00:00:00Z"
+  },
+  "participant": {
+    "initials": "JD",
+    "age": 35,
+    "sexOrGender": "",
+    "handDominance": "right",
+    "heightCm": 175,
+    "weightKg": 70,
+    "goals": ["focus", "mood"],
+    "protocol": { "type": "fadiman", "pattern": [1,0,0,1,0,0,1] }
+  },
+  "baseline": {
+    "date": "2025-01-01",
+    "phq9": { "items": [1,2,1,1,1,0,0,0,0], "total": 6 },
+    "gad7": { "items": [1,1,1,0,0,0,0], "total": 3 },
+    "pss10": { "items": [2,2,1,2,2,1,2,2,1,2], "total": 17 },
+    "who5": { "items": [3,3,3,4,3], "total": 16 },
+    "sleepHours": null,
+    "sleepQuality": null,
+    "rested": null,
+    "mood": null,
+    "anxiety": null,
+    "focus": null,
+    "energy": null,
+    "pain": null,
+    "libido": null,
+    "social": null
+  },
+  "doses": [
+    {
+      "id": "dose1",
+      "ts": "2025-01-02T08:00",
+      "doseAmount": 0.1,
+      "doseUnit": "g",
+      "substance": "psilocybin",
+      "form": "capsule",
+      "strain": "Golden Teacher",
+      "route": "oral",
+      "withFood": true,
+      "context": "Morning meditation",
+      "acuteNotes": "Subtle uplift",
+      "adverse": false,
+      "adverseNotes": ""
+    },
+    {
+      "id": "dose2",
+      "ts": "2025-01-05T08:00",
+      "doseAmount": 0.1,
+      "doseUnit": "g",
+      "substance": "psilocybin",
+      "form": "capsule",
+      "strain": "B+",
+      "route": "oral",
+      "withFood": false,
+      "context": "Outdoor walk",
+      "acuteNotes": "Creative thinking",
+      "adverse": false,
+      "adverseNotes": ""
+    }
+  ],
+  "daily": [
+    {
+      "id": "d1",
+      "date": "2025-01-02",
+      "isDoseDay": true,
+      "sleepHours": 7.5,
+      "sleepQuality": 4,
+      "rested": 4,
+      "mood": 7,
+      "anxiety": 2,
+      "focus": 6,
+      "energy": 7,
+      "stress": 3,
+      "productivity": 6,
+      "social": 5,
+      "libido": 4,
+      "giNotes": "",
+      "otherNotes": "",
+      "adverse": false,
+      "safetyNotes": ""
+    },
+    {
+      "id": "d2",
+      "date": "2025-01-03",
+      "isDoseDay": false,
+      "sleepHours": 8,
+      "sleepQuality": 4,
+      "rested": 4,
+      "mood": 6,
+      "anxiety": 3,
+      "focus": 6,
+      "energy": 6,
+      "stress": 4,
+      "productivity": 6,
+      "social": 5,
+      "libido": 4,
+      "giNotes": "",
+      "otherNotes": "",
+      "adverse": false,
+      "safetyNotes": ""
+    },
+    {
+      "id": "d3",
+      "date": "2025-01-05",
+      "isDoseDay": true,
+      "sleepHours": 7,
+      "sleepQuality": 3,
+      "rested": 3,
+      "mood": 8,
+      "anxiety": 2,
+      "focus": 7,
+      "energy": 8,
+      "stress": 2,
+      "productivity": 7,
+      "social": 6,
+      "libido": 5,
+      "giNotes": "",
+      "otherNotes": "",
+      "adverse": false,
+      "safetyNotes": ""
+    }
+  ],
+  "weekly": [
+    {
+      "id": "w1",
+      "weekStart": "2025-01-01",
+      "phq9": { "items": [1,1,1,1,1,0,0,0,0], "total": 5 },
+      "gad7": { "items": [1,1,1,0,0,0,0], "total": 3 },
+      "pss10": { "items": [2,2,1,2,2,1,2,2,1,2], "total": 17 },
+      "who5": { "items": [3,3,3,4,3], "total": 16 },
+      "notes": "Feeling a bit more focused this week."
+    }
+  ],
+  "ftt": [
+    {
+      "id": "ft1",
+      "date": "2025-01-03",
+      "hand": "dominant",
+      "trialSeconds": 10,
+      "trial1": 70,
+      "trial2": 71,
+      "trial3": 72,
+      "avg": 71,
+      "device": "TestPhone",
+      "notes": ""
+    },
+    {
+      "id": "ft2",
+      "date": "2025-01-03",
+      "hand": "nondominant",
+      "trialSeconds": 10,
+      "trial1": 60,
+      "trial2": 61,
+      "trial3": 62,
+      "avg": 61,
+      "device": "TestPhone",
+      "notes": ""
+    }
+  ],
+  "pvt": []
+}

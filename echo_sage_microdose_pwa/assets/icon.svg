@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A simple stylised mushroom outline drawn with a green stroke -->
+  <path d="M50 12 C30 12 15 28 15 45 S27 80 50 88 85 60 85 45 70 12 50 12 Z" fill="none" stroke="#4caf50" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

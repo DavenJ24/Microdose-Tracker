@@ -1,0 +1,8 @@
+body{margin:0;font-family:system-ui;background:#121212;color:#e0e0e0}
+main{padding:12px;padding-bottom:100px}
+section{display:none}
+section.active{display:block}
+button{padding:10px 16px;margin:6px;border:none;border-radius:8px;background:#4caf50;color:#fff}
+.tap-area{height:160px;background:#333;display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none}
+nav#bottomNav{position:fixed;bottom:0;left:0;width:100%;background:#1f1f1f;display:flex;overflow-x:auto}
+nav#bottomNav button{flex:0 0 auto;min-width:90px;color:#fff;background:none}
