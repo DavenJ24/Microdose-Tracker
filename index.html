@@ -1,46 +1,259 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b0f18">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f18" />
   <title>EchoSage • Microdose Tracker</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body class="dark">
   <header class="app-header glass">
     <div class="brand">
-      <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 12 C30 12 15 28 15 45 S27 80 50 88 85 60 85 45 70 12 50 12 Z" fill="none" stroke="#7ee787" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M50 12 C30 12 15 28 15 45 S27 80 50 88 85 60 85 45 70 12 50 12 Z"
+              fill="none" stroke="#7ee787" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
       <h1>EchoSage</h1>
     </div>
-<p class="tag">Static No-Node • v1.4.0</p>
+    <p class="tag">Static No‑Node • v1.4.0</p>
   </header>
 
   <main id="app">
     <section id="home" class="active">
-      <h2>Home ✨</h2>
-      <div id="kpis" class="kpi-grid"></div>
+      <h2>Home</h2>
+      <p class="explain">Welcome to your microdosing tracker summary. We’ll graph trends for mood, anxiety, stress, sleep, and tapping speed as you log.</p>
+      <div id="kpis" class="kpi-grid glass"></div>
       <div class="charts glass">
-        <canvas id="chartMood" height="200"></canvas>
-        <canvas id="chartAnxiety" height="200"></canvas>
+        <canvas id="chartMood" height="180"></canvas>
+        <canvas id="chartAnxiety" height="180"></canvas>
+        <canvas id="chartStress" height="180"></canvas>
+        <canvas id="chartSleep" height="180"></canvas>
+        <canvas id="chartFTT" height="180"></canvas>
+      </div>
+      <div id="insights" class="glass"></div>
+    </section>
+
+    <section id="baseline">
+      <h2>Baseline (Intake)</h2>
+      <p class="explain">Record participant info and baseline questionnaires before starting.</p>
+      <form id="baselineForm">
+        <label>Initials: <input type="text" id="partInitials" maxlength="4"></label>
+        <label>Age: <input type="number" id="partAge" min="1"></label>
+        <label>Sex/Gender: <input type="text" id="partGender" placeholder="Optional"></label>
+        <label>Hand Dominance:
+          <select id="partHand"><option value="Right">Right</option><option value="Left">Left</option></select>
+        </label>
+        <label>Height (cm): <input type="number" id="partHeight" min="0" placeholder="Optional"></label>
+        <label>Weight (kg): <input type="number" id="partWeight" min="0" placeholder="Optional"></label>
+
+        <p>Primary goals (choose any):</p>
+        <label><input type="checkbox" class="goalChk" value="focus"> Improve focus</label>
+        <label><input type="checkbox" class="goalChk" value="mood"> Improve mood</label>
+        <label><input type="checkbox" class="goalChk" value="sleep"> Better sleep</label>
+        <label><input type="checkbox" class="goalChk" value="anxiety"> Reduce anxiety</label>
+        <label><input type="checkbox" class="goalChk" value="pain"> Manage pain</label>
+        <label><input type="checkbox" class="goalChk" value="other"> Other</label>
+        <div id="goalOtherField" style="display:none;"><input type="text" id="goalOtherInput" placeholder="Other goal"></div>
+
+        <h3>Choose Protocol</h3>
+        <label><input type="radio" name="protocol" value="fadiman" required> Fadiman (1 day on, 2 off)</label>
+        <label><input type="radio" name="protocol" value="stamets"> Stamets (4 days on, 3 off)</label>
+        <label><input type="radio" name="protocol" value="custom"> Custom schedule</label>
+        <div id="customPatternBuilder" style="display:none; margin-left:1em;">
+          <p>Select dosing days in a 7‑day week:</p>
+          <label><input type="checkbox" class="patternDay" value="0"> Mon</label>
+          <label><input type="checkbox" class="patternDay" value="1"> Tue</label>
+          <label><input type="checkbox" class="patternDay" value="2"> Wed</label>
+          <label><input type="checkbox" class="patternDay" value="3"> Thu</label>
+          <label><input type="checkbox" class="patternDay" value="4"> Fri</label>
+          <label><input type="checkbox" class="patternDay" value="5"> Sat</label>
+          <label><input type="checkbox" class="patternDay" value="6"> Sun</label>
+        </div>
+
+        <h3>Baseline Scores (totals)</h3>
+        <div class="grid2">
+          <label>PHQ‑9 total: <input type="number" id="b_phq9_total" min="0" max="27"></label>
+          <label>GAD‑7 total: <input type="number" id="b_gad7_total" min="0" max="21"></label>
+          <label>PSS‑10 total: <input type="number" id="b_pss10_total" min="0" max="40"></label>
+          <label>WHO‑5 total: <input type="number" id="b_who5_total" min="0" max="25"></label>
+        </div>
+
+        <button type="button" id="saveBaseline" class="primary">Save Baseline</button>
+        <p class="muted">You can capture the full questionnaires weekly under the <b>Weekly</b> tab.</p>
+      </form>
+    </section>
+
+    <section id="dosing">
+      <h2>Dosing Log</h2>
+      <form id="doseForm">
+        <label>Date/Time: <input type="datetime-local" id="doseDatetime"></label>
+        <label>Dose Amount:
+          <input type="number" id="doseAmount" step="0.01" min="0">
+          <select id="doseUnit"><option value="g">g</option><option value="mg">mg</option></select>
+        </label>
+        <label>Substance:
+          <select id="doseSubstance">
+            <option value="psilocybin">Psilocybin microdose</option>
+            <option value="lions mane">Lion's Mane</option>
+            <option value="niacin">Niacin</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <div id="otherSubstanceField" style="display:none; margin-left:1em;">
+          <label>Other substance: <input type="text" id="otherSubstanceInput" placeholder="Specify"></label>
+        </div>
+        <label>Strain/Variety: <input type="text" id="doseStrain" placeholder="e.g. Golden Teacher"></label>
+        <label>Route:
+          <select id="doseRoute"><option>Oral</option><option>Sublingual</option><option>Smoking</option><option>Other</option></select>
+        </label>
+        <label><input type="checkbox" id="doseWithFood"> Took with food</label>
+        <label>Set/Setting/Context: <input type="text" id="doseContext" placeholder="e.g. at home, calm"></label>
+        <label>Notes: <input type="text" id="doseNotes" placeholder="Any quick notes"></label>
+        <label><input type="checkbox" id="doseAdverse"> Mark as adverse event</label>
+        <div id="doseAdverseNotesField" style="display:none; margin-left:1em;">
+          <label>Adverse details: <input type="text" id="doseAdverseNotes" placeholder="Describe adverse effect"></label>
+        </div>
+        <button type="button" id="addDose" class="primary">Add Dose</button>
+      </form>
+      <div id="doseHistory">
+        <h4>Past Doses</h4>
+        <ul id="doseList" class="history-list"></ul>
       </div>
     </section>
+
+    <section id="daily">
+      <h2>Daily Log</h2>
+      <form id="dailyForm">
+        <label><input type="checkbox" id="dailyIsDoseDay"> I microdosed today</label>
+        <label>Mood (1–10): <input type="number" id="dailyMood" min="1" max="10" required></label>
+        <label>Anxiety (0–10): <input type="number" id="dailyAnxiety" min="0" max="10" required></label>
+        <label>Focus (1–10): <input type="number" id="dailyFocus" min="1" max="10" required></label>
+        <label>Energy (1–10): <input type="number" id="dailyEnergy" min="1" max="10" required></label>
+        <label>Sleep Hours: <input type="number" id="dailySleepHours" step="0.25" min="0" max="24"></label>
+        <label>Sleep Quality (1–5): <input type="number" id="dailySleepQuality" min="1" max="5"></label>
+        <label>Rested (1–5): <input type="number" id="dailyRested" min="1" max="5"></label>
+        <label>Stress (0–10): <input type="number" id="dailyStress" min="0" max="10"></label>
+        <button type="button" id="toggleDailyMore">Show More Fields</button>
+        <div id="dailyMore" style="display:none; margin-top:0.5em;">
+          <label>Productivity (1–10): <input type="number" id="dailyProductivity" min="1" max="10"></label>
+          <label>Social Connection (1–10): <input type="number" id="dailySocial" min="1" max="10"></label>
+          <label>Libido (1–10): <input type="number" id="dailyLibido" min="1" max="10"></label>
+          <label>GI Notes: <input type="text" id="dailyGINotes" placeholder="Any digestion issues?"></label>
+          <label>Other Notes: <input type="text" id="dailyOtherNotes" placeholder="Anything else?"></label>
+          <label><input type="checkbox" id="dailyAdverse"> Flag adverse/safety issue</label>
+          <div id="dailyAdverseNotesField" style="display:none; margin-left:1em;">
+            <label>Describe issue: <input type="text" id="dailyAdverseNotes" placeholder="Describe any problem"></label>
+          </div>
+        </div>
+        <button type="button" id="saveDaily" class="primary">Save Daily Entry</button>
+      </form>
+    </section>
+
+    <section id="weekly">
+      <h2>Weekly Check‑In</h2>
+      <p class="muted">Enter weekly totals for PHQ‑9, GAD‑7, PSS‑10, WHO‑5 (or use full forms if desired).</p>
+      <form id="weeklyForm" class="grid2">
+        <label>PHQ‑9 total: <input type="number" id="w_phq9_total" min="0" max="27" required></label>
+        <label>GAD‑7 total: <input type="number" id="w_gad7_total" min="0" max="21" required></label>
+        <label>PSS‑10 total: <input type="number" id="w_pss10_total" min="0" max="40" required></label>
+        <label>WHO‑5 total: <input type="number" id="w_who5_total" min="0" max="25" required></label>
+        <label class="full">Weekly Notes:
+          <textarea id="weeklyNotes" rows="2" placeholder="Anything else to note this week?"></textarea>
+        </label>
+        <button type="button" id="saveWeekly" class="primary">Save Weekly Check‑In</button>
+      </form>
+      <div id="weeklyResult" class="muted"></div>
+    </section>
+
     <section id="cognition">
-      <h2>FTT</h2>
+      <h2>FTT (Finger Tapping Test)</h2>
+      <p class="explain">Tap the area as fast as you can for 10 seconds. Do 3 trials for each hand.</p>
       <div class="glass ftt">
+        <label>Hand:
+          <select id="fttHand"><option value="dominant">Dominant</option><option value="nondominant">Non‑dominant</option></select>
+        </label>
         <button id="fttStart" class="primary" type="button">Start 10s</button>
         <div id="fttTimer" class="timer">Ready</div>
         <div id="fttTapArea" class="tap-area" role="button" tabindex="0">Tap here</div>
         <div id="fttResults" class="muted"></div>
       </div>
     </section>
+
+    <section id="export">
+      <h2>Export / Import</h2>
+      <div class="glass export-panel">
+        <h3>Export Data</h3>
+        <button type="button" id="copyJSON">Copy JSON</button>
+        <button type="button" id="downloadJSON">Download JSON</button>
+        <h4>Export CSVs:</h4>
+        <ul>
+          <li>baseline.csv — <button type="button" data-csv="baseline" class="copyCsvBtn">Copy</button> <button type="button" data-csv="baseline" class="downloadCsvBtn">Download</button></li>
+          <li>doses.csv — <button type="button" data-csv="doses" class="copyCsvBtn">Copy</button> <button type="button" data-csv="doses" class="downloadCsvBtn">Download</button></li>
+          <li>daily.csv — <button type="button" data-csv="daily" class="copyCsvBtn">Copy</button> <button type="button" data-csv="daily" class="downloadCsvBtn">Download</button></li>
+          <li>weekly.csv — <button type="button" data-csv="weekly" class="copyCsvBtn">Copy</button> <button type="button" data-csv="weekly" class="downloadCsvBtn">Download</button></li>
+          <li>ftt.csv — <button type="button" data-csv="ftt" class="copyCsvBtn">Copy</button> <button type="button" data-csv="ftt" class="downloadCsvBtn">Download</button></li>
+        </ul>
+        <h3>Import Data</h3>
+        <textarea id="importData" rows="4" placeholder="Paste JSON here"></textarea><br>
+        <button type="button" id="importJSON">Import JSON</button>
+      </div>
+    </section>
+
+    <section id="settings">
+      <h2>Settings & About</h2>
+      <form id="settingsForm">
+        <h3>Protocol</h3>
+        <label><input type="radio" name="setProtocol" value="fadiman"> Fadiman (1 on / 2 off)</label>
+        <label><input type="radio" name="setProtocol" value="stamets"> Stamets (4 on / 3 off)</label>
+        <label><input type="radio" name="setProtocol" value="custom"> Custom</label>
+        <div id="settingsCustomPattern" style="display:none; margin-left:1em;">
+          <p>Select dose days each week:</p>
+          <label><input type="checkbox" class="patternDay" value="0"> Mon</label>
+          <label><input type="checkbox" class="patternDay" value="1"> Tue</label>
+          <label><input type="checkbox" class="patternDay" value="2"> Wed</label>
+          <label><input type="checkbox" class="patternDay" value="3"> Thu</label>
+          <label><input type="checkbox" class="patternDay" value="4"> Fri</label>
+          <label><input type="checkbox" class="patternDay" value="5"> Sat</label>
+          <label><input type="checkbox" class="patternDay" value="6"> Sun</label>
+        </div>
+        <button type="button" id="saveProtocol">Save Protocol</button>
+
+        <h3>Display</h3>
+        <label><input type="checkbox" id="toggleLargeText"> Large Text Mode</label><br>
+        <label>Theme:
+          <select id="themeSelect"><option value="dark">Dark</option><option value="light">Light</option></select>
+        </label>
+
+        <h3>App Installation</h3>
+        <ul>
+          <li><b>On iPhone (Safari):</b> Share → “Add to Home Screen.”</li>
+          <li><b>On Android (Chrome):</b> Menu (⋮) → “Install App”.</li>
+        </ul>
+
+        <h3>Data Management</h3>
+        <button type="button" id="clearData">Clear All Data</button>
+        <p class="muted">This erases all records and resets the app (ensure backups first).</p>
+
+        <h3>About & Disclaimer</h3>
+        <p class="muted">Self‑tracking + education only; not medical advice. Data stays on your device.</p>
+        <p class="muted">EchoSage Microdose Tracker v1.4.0.</p>
+      </form>
+    </section>
   </main>
+
   <nav id="bottomNav" class="glass">
-    <button data-target="home">Home</button>
+    <button data-target="home" class="active-tab">Home</button>
+    <button data-target="baseline">Baseline</button>
+    <button data-target="dosing">Dose</button>
+    <button data-target="daily">Daily</button>
+    <button data-target="weekly">Weekly</button>
     <button data-target="cognition">FTT</button>
+    <button data-target="export">Export</button>
+    <button data-target="settings">Settings</button>
   </nav>
 </body>
 </html>
